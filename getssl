@@ -984,7 +984,7 @@ if [ -f "$DOMAIN_DIR/${DOMAIN}.csr" ]; then
   debug "domain csr exists at - $DOMAIN_DIR/${DOMAIN}.csr"
   # check all domains in config are in csr
   alldomains=$(echo "$DOMAIN,$SANS" | tr -d " " |tr , '\n')
-  domains_in_csr=$(openssl req -noout -text -in "$DOMAIN_DIR/${DOMAIN}.csr" |os_grep "DNS:.*" |tr -d "DNS:" |tr -d " " |tr , '\n')
+  domains_in_csr=$(openssl req -noout -text -in "$DOMAIN_DIR/${DOMAIN}.csr" -config "$SSLCONF" |os_grep "DNS:.*" |tr -d "DNS:" |tr -d " " |tr , '\n')
   for d in $alldomains; do
     if [ "$(echo "${domains_in_csr}"| os_grep "^${d}$")" != "${d}" ]; then
       info "existing csr at $DOMAIN_DIR/${DOMAIN}.csr does not contain ${d} - re-create-csr .... $(echo "${domains_in_csr}"| os_grep "^${d}$")"
