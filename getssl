@@ -1166,7 +1166,7 @@ for d in $alldomains; do
     debug wellknown_url "$wellknown_url"
 
     # check that we can reach the challenge ourselves, if not, then error
-    if [ ! "$(curl --silent --location "$wellknown_url")" == "$keyauthorization" ]; then
+    if [ ! "$(curl -k --silent --location "$wellknown_url")" == "$keyauthorization" ]; then
       error_exit "for some reason could not reach $wellknown_url - please check it manually"
     fi
 
@@ -1258,7 +1258,7 @@ fi # end of ... perform validation if via DNS challenge
 
 # Verification has been completed for all SANS, so  request certificate.
 info "Verification completed, obtaining certificate."
-der=$(openssl req  -in "$DOMAIN_DIR/${DOMAIN}.csr" -outform DER | urlbase64)
+der=$(openssl req  -in "$DOMAIN_DIR/${DOMAIN}.csr" -outform DER -config "$SSLCONF" | urlbase64)
 debug "der $der"
 send_signed_request "$CA/acme/new-cert" "{\"resource\": \"new-cert\", \"csr\": \"$der\"}" "needbase64"
 
