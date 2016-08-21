@@ -901,9 +901,9 @@ if [[ "${CHECK_REMOTE}" == "true" ]] && [ $_FORCE_RENEW -eq 0 ]; then
   fi # end of .... if obtained a cert
 fi # end of .... check_remote is true then connect and obtain the current certificate
 
-# if force renew is set, set the date validity checks to 365 days
+# if force renew is set, set the date validity checks to 3650 days, 10 years
 if [ $_FORCE_RENEW -eq 1 ]; then
-  RENEW_ALLOW=365
+  RENEW_ALLOW=3650
 fi
 
 # if there is an existsing certificate file, check details.
